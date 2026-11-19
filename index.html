@@ -2,21 +2,483 @@
 <html lang="hu">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MEFOB – hamarosan</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f2a44">
+<meta name="description" content="Floorball MEFOB 2026 – Magyar Egyetemi-Főiskolai Országos Bajnokság, 2026. november 19–20., Miskolci Egyetem Körcsarnok. Menetrend, élő eredmények, tabella és góllövőlista.">
+<meta property="og:title" content="Floorball MEFOB 2026 – Miskolc">
+<meta property="og:description" content="2026. november 19–20., Miskolci Egyetem Körcsarnok – menetrend és élő eredmények telefonon.">
+<meta property="og:url" content="https://mefob.devyou.hu/">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://mefob.devyou.hu/logo/mfsz.png">
+<link rel="icon" href="logo/miskolci-egyetem.svg">
+<title>Floorball MEFOB 2026 – Miskolc</title>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "SportsEvent",
+ "name": "Floorball MEFOB 2026 – Magyar Egyetemi-Főiskolai Országos Bajnokság", "sport": "Floorball",
+ "startDate": "2026-11-19", "endDate": "2026-11-20",
+ "eventStatus": "https://schema.org/EventScheduled",
+ "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+ "location": {"@type": "Place", "name": "Miskolci Egyetem Körcsarnok",
+              "address": {"@type": "PostalAddress", "addressLocality": "Miskolc", "addressCountry": "HU"}},
+ "url": "https://mefob.devyou.hu/",
+ "image": ["https://mefob.devyou.hu/logo/mfsz.png"]}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap">
 <style>
-:root{--bg:#f6f7f9;--fg:#1b1f24;--muted:#5b6470;--accent:#0b6bcb}
-@media (prefers-color-scheme:dark){:root{--bg:#121417;--fg:#eef1f4;--muted:#9aa4b0;--accent:#5aa9ff}}
-body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding:16px;box-sizing:border-box;text-align:center}
-h1{font-size:2.2rem;margin:0 0 .5rem;color:var(--accent)}
-p{color:var(--muted);margin:.25rem 0}
+:root {
+  --bg: #eef2f6;          /* csarnokpadló, hideg világos */
+  --surface: #ffffff;
+  --ink: #0f2a44;         /* palánk-sötétkék */
+  --muted: #5d7186;
+  --line: #d5dee8;
+  --accent: #e8571c;      /* floorball-labda narancs */
+  --accent-ink: #ffffff;
+  --win: #1d7a4c;
+  --soft: #e3eaf2;
+  --mine: #fff1e8;
+  --gold: #e3b341; --silver: #c3ccd6; --bronze: #c98a52; --podium-ink: #1b2430;
+  --display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --body: "Barlow", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0b1724; --surface: #12233a; --ink: #e8eef5; --muted: #93a6ba; --line: #22374f;
+    --accent: #ff7a3d; --accent-ink: #1a0d05; --win: #4cc48a; --soft: #1a2f49; --mine: #3a2416;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0b1724; --surface: #12233a; --ink: #e8eef5; --muted: #93a6ba; --line: #22374f;
+  --accent: #ff7a3d; --accent-ink: #1a0d05; --win: #4cc48a; --soft: #1a2f49; --mine: #3a2416;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 400 16px/1.45 var(--body);
+  padding: env(safe-area-inset-top, 0px) 0 env(safe-area-inset-bottom, 0px);
+}
+.wrap { max-width: 560px; margin: 0 auto; padding-inline: 16px; }
+.num { font-variant-numeric: tabular-nums; }
+
+/* Fejléc */
+header { padding-block: 20px 14px; }
+.eyebrow { font: 600 13px/1 var(--body); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.brand { display: grid; grid-template-columns: 1fr auto; gap: 14px; align-items: center; }
+.brand > div { min-width: 0; }
+.logo { display: block; height: 76px; width: auto; background: #fff; border-radius: 12px; padding: 6px 8px; }
+h1 { font: 800 clamp(30px, 8.6vw, 44px)/.95 var(--display); margin: 6px 0 10px; text-transform: uppercase; letter-spacing: .01em; text-wrap: balance; }
+h1 span { color: var(--accent); }
+.facts { display: flex; flex-wrap: wrap; gap: 6px; }
+.event { display: inline-block; margin-top: 10px; font: 600 14px var(--body); color: var(--accent); text-decoration: none; }
+.event:hover, .event:focus-visible { text-decoration: underline; }
+.facts span { font: 600 13px/1 var(--body); background: var(--soft); border-radius: 999px; padding: 6px 10px; }
+.status { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 13px; color: var(--muted); }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--win); flex: none; }
+.dot.err { background: var(--accent); }
+.status button { margin-left: auto; font: 600 13px var(--body); color: var(--ink); background: none; border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; cursor: pointer; }
+
+/* Kiemelt meccs */
+.spot { background: var(--ink); color: var(--bg); border-radius: 16px; padding: 14px 16px 16px; margin-bottom: 14px; }
+.spot .lbl { display: flex; justify-content: space-between; font: 600 12px/1 var(--body); letter-spacing: .08em; text-transform: uppercase; opacity: .8; }
+.spot .lbl b { color: var(--accent); opacity: 1; }
+.spot .teams { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 10px; margin-top: 12px; }
+.spot .t { font: 700 20px/1.1 var(--display); text-transform: uppercase; min-width: 0; overflow-wrap: anywhere; }
+.spot .t:last-child { text-align: right; }
+.spot .sc { font: 800 34px/1 var(--display); }
+.spot .stake { margin-top: 10px; font-size: 13px; opacity: .75; }
+
+/* Fülek */
+nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); padding-block: 8px; }
+.tabs { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--soft); border-radius: 12px; padding: 4px; gap: 4px; }
+.tabs button { font: 700 15px/1 var(--display); letter-spacing: .04em; text-transform: uppercase; border: 0; border-radius: 9px; padding: 10px 4px; background: transparent; color: var(--muted); cursor: pointer; }
+.tabs button[aria-selected="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgb(0 0 0 / .12); }
+.pick { display: flex; align-items: center; gap: 8px; margin-top: 8px; font-size: 14px; color: var(--muted); }
+.pick select { flex: 1; min-width: 0; font: 500 15px var(--body); color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; }
+button:focus-visible, select:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+main { padding-block: 6px 40px; }
+h2 { font: 800 22px/1 var(--display); text-transform: uppercase; letter-spacing: .02em; margin: 22px 0 4px; }
+.sub { font-size: 13px; color: var(--muted); margin: 0 0 10px; }
+
+/* Meccslista */
+.list { background: var(--surface); border-radius: 14px; overflow: hidden; }
+.m { padding: 10px 12px 11px; border-top: 1px solid var(--line); }
+.m:first-child { border-top: 0; }
+.m.mine { background: var(--mine); }
+.m.now { box-shadow: inset 4px 0 0 var(--accent); }
+.meta { display: flex; justify-content: space-between; gap: 8px; font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+.meta b { font: 700 14px/1 var(--display); color: var(--ink); letter-spacing: .02em; }
+.vs { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 10px; }
+.vs .n { min-width: 0; overflow-wrap: anywhere; line-height: 1.2; }
+.vs .n.h { text-align: right; }
+.vs .n.w { font-weight: 600; }
+.score { font: 700 20px/1 var(--display); min-width: 54px; text-align: center; padding: 6px 8px; border-radius: 8px; background: var(--soft); }
+.score.open { color: var(--muted); font-size: 16px; }
+.ph { color: var(--muted); font-style: italic; }
+.score.live { background: transparent; border: 2px dashed var(--accent); color: var(--accent); font-style: italic; }
+.livetag { font: 600 11px/1 var(--body); font-style: normal; color: var(--accent); letter-spacing: .02em; text-transform: none; white-space: nowrap; }
+h2 .livetag { font-size: 12px; vertical-align: middle; }
+.spot .sc.livesc { color: var(--accent); font-style: italic; border-bottom: 3px dashed var(--accent); }
+.stand { display: grid; grid-template-columns: repeat(3, 1fr); align-items: end; gap: 6px; margin: 14px 0 14px; }
+.stand .col { display: flex; flex-direction: column; align-items: stretch; gap: 8px; min-width: 0; text-align: center; }
+.stand .who { font: 700 15px/1.1 var(--display); text-transform: uppercase; letter-spacing: .02em; overflow-wrap: anywhere; padding-inline: 2px; }
+.stand .p1 .who { font-size: 17px; }
+.stand .blk { display: flex; justify-content: center; padding-top: 6px; border-radius: 6px 6px 0 0; font: 800 30px/1 var(--display); color: var(--podium-ink); box-shadow: inset 0 -6px 0 rgb(0 0 0 / .12); }
+.stand .p1 .blk { height: 92px; background: var(--gold); }
+.stand .p2 .blk { height: 68px; background: var(--silver); }
+.stand .p3 .blk { height: 50px; background: var(--bronze); }
+@media (prefers-reduced-motion: no-preference) {
+  .stand .blk { transform-origin: bottom; animation: rise .6s ease-out both; }
+  .stand .p2 .blk { animation-delay: .1s; } .stand .p3 .blk { animation-delay: .2s; }
+}
+@keyframes rise { from { transform: scaleY(.15); } to { transform: scaleY(1); } }
+.spot .more { font: 700 14px/1 var(--display); letter-spacing: .04em; text-transform: uppercase; background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 8px; padding: 9px 12px; cursor: pointer; }
+
+/* Tabellák */
+.tbl { background: var(--surface); border-radius: 14px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 15px; }
+th { font: 600 11px/1 var(--body); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); text-align: center; padding: 10px 4px; }
+th:nth-child(2) { text-align: left; }
+td { text-align: center; padding: 9px 4px; border-top: 1px solid var(--line); }
+td.tn { text-align: left; min-width: 120px; }
+td.pos { width: 30px; white-space: nowrap;font: 700 15px var(--display); color: var(--muted); }
+td.p { font: 800 17px var(--display); }
+tr.mine td { background: var(--mine); }
+.q { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; color: var(--muted); margin-top: 8px; }
+
+/* Végeredmény */
+.podium { background: var(--surface); border-radius: 14px; overflow: hidden; }
+.pl { display: grid; grid-template-columns: 48px 1fr; align-items: center; gap: 10px; padding: 12px; border-top: 1px solid var(--line); }
+.pl:first-child { border-top: 0; }
+.pl .rk { font: 800 28px/1 var(--display); text-align: center; }
+.pl .tn { font-weight: 600; min-width: 0; overflow-wrap: anywhere; }
+.pl .br { font-size: 12px; color: var(--muted); }
+.pl.medal .rk { color: var(--accent); }
+.pl.mine { background: var(--mine); }
+.note { font-size: 13px; color: var(--muted); margin-top: 14px; }
+.ceremony { margin-top: 18px; text-align: center; font: 700 18px/1.2 var(--display); text-transform: uppercase; letter-spacing: .03em; }
+footer { font-size: 12px; color: var(--muted); padding-block: 0 30px; display: grid; gap: 12px; }
+.logos { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.logos img { display: block; height: 52px; width: auto; background: #fff; border-radius: 10px; padding: 6px 8px; }
+@media (prefers-reduced-motion: no-preference) { .dot.live { animation: pulse 2s infinite; } }
+@keyframes pulse { 50% { opacity: .35; } }
+.logo { height: 46px; padding: 5px 8px; }
+.brand { margin-top: 10px; }
+td.tn { min-width: 64px; }
+th, td { padding-inline: 2px; }
+.tbl table { font-size: 14px; }
+td.pos { width: 24px; }
+.m.prog { background: var(--soft); }
+.m.prog .pn { font: 700 16px/1.2 var(--display); text-transform: uppercase; letter-spacing: .02em; text-align: center; }
+.sc-list .pl { grid-template-columns: 40px 1fr auto; }
+.sc-list .g { font: 800 22px/1 var(--display); color: var(--accent); min-width: 32px; text-align: right; }
+.logos img { height: 46px; }
 </style>
 </head>
 <body>
-<main>
-<h1>MEFOB</h1>
-<p>Az oldal hamarosan elkészül.</p>
-<p><small>Tesztoldal · DEVYOU</small></p>
-</main>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">2026. november 19–20. · Miskolci Egyetem Körcsarnok</div>
+    <div class="brand">
+      <div>
+        <h1>Floorball <span>MEFOB</span> 2026</h1>
+      </div>
+      <img class="logo" src="logo/miskolci-egyetem.svg" width="208" height="56" alt="Miskolci Egyetem">
+    </div>
+    <div class="facts"><span>5 csapat</span><span>10 meccs</span><span>2 × 20 perc</span><span>1 pálya</span><span>2 nap</span></div>
+    <div class="status"><span class="dot" id="dot"></span><span id="stamp">Betöltés…</span><button type="button" id="reload">Frissítés</button></div>
+  </header>
+
+  <section id="spot"></section>
+
+  <nav>
+    <div class="tabs" role="tablist">
+      <button type="button" role="tab" id="tab-meccsek" data-tab="meccsek" aria-selected="true">Meccsek</button>
+      <button type="button" role="tab" id="tab-tabella" data-tab="tabella" aria-selected="false">Tabella</button>
+      <button type="button" role="tab" id="tab-gollovok" data-tab="gollovok" aria-selected="false">Góllövők</button>
+    </div>
+    <label class="pick" for="team">Csapatom: <select id="team"><option value="">nincs kiválasztva</option></select></label>
+  </nav>
+
+  <main>
+    <div id="p-meccsek"></div>
+    <div id="p-tabella" hidden></div>
+    <div id="p-gollovok" hidden></div>
+  </main>
+
+  <footer>
+    <div class="logos">
+      <img src="logo/miskolci-egyetem.svg" width="208" height="56" alt="Miskolci Egyetem">
+      <img src="logo/mfsz.png" width="1689" height="560" alt="Magyar Floorball Szakszövetség">
+    </div>
+    <div>Magyar Egyetemi-Főiskolai Országos Bajnokság, floorball. Az eredményeket a szervezők a helyszínen rögzítik, az oldal 30 másodpercenként magától frissül.</div>
+  </footer>
+</div>
+
+<script>
+const SHEET_ID = "1zdMVog12VFdow4r3rUMItMaF5X35hyVu_8x8BXwuoJ0";
+// Minden a szervezők táblázatából jön, az oldal semmit nem számol újra.
+// Külön tartományok, mert a gviz a vegyes típusú oszlopokban kinullázza a kisebbségi típust.
+const csvUrl = range => `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&headers=0&gid=0&range=${range}`;
+const RANGES = { matches: "B5:H40", table: "J5:R14", final: "J14:P30", scorers: "T5:W80" };
+const REFRESH_MS = 30000;
+const DAYS = ["2026-11-19", "2026-11-20"];   // a torna napjai; a menetrendben az idő visszaugrása jelzi a napváltást
+const DAY_LABEL = ["november 19., csütörtök", "november 20., péntek"];
+const LIVE_MAX_MIN = 55;                       // 2 × 20 perc + 5 perc szünet + ráhagyás
+const ARCHIVE_AFTER_MIN = 60;
+
+const FALLBACK = [
+ ["1.","10:00","EKKE","","","ME","Körmérkőzés"],
+ ["2.","11:00","BME","","","SZE","Körmérkőzés"],
+ ["—","12:00","Ünnepélyes megnyitó","","","","Hivatalos program"],
+ ["3.","12:15","ME","","","ELTE","Körmérkőzés"],
+ ["4.","13:15","EKKE","","","SZE","Körmérkőzés"],
+ ["5.","14:15","ME","","","BME","Körmérkőzés"],
+ ["6.","15:15","EKKE","","","ELTE","Körmérkőzés"],
+ ["7.","09:00","SZE","","","ELTE","Körmérkőzés"],
+ ["8.","10:00","EKKE","","","BME","Körmérkőzés"],
+ ["9.","11:00","ME","","","SZE","Körmérkőzés"],
+ ["10.","12:00","BME","","","ELTE","Körmérkőzés"],
+ ["—","13:00","🏆 Ünnepélyes eredményhirdetés és díjátadó","","","","Hivatalos program"]
+];
+
+const store = {
+  get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch {} }
+};
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const pad = x => String(x).padStart(2, "0");
+const fmtMin = m => `${Math.floor(m / 60)}:${pad(m % 60)}`;
+
+function parseCSV(text) {
+  const rows = []; let row = [], cur = "", q = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (q) {
+      if (c === '"' && text[i + 1] === '"') { cur += '"'; i++; }
+      else if (c === '"') q = false;
+      else cur += c;
+    } else if (c === '"') q = true;
+    else if (c === ",") { row.push(cur); cur = ""; }
+    else if (c === "\n") { row.push(cur); rows.push(row); row = []; cur = ""; }
+    else if (c !== "\r") cur += c;
+  }
+  if (cur || row.length) { row.push(cur); rows.push(row); }
+  return rows;
+}
+const goal = v => { const t = String(v ?? "").trim(); return t === "" || isNaN(+t) ? null : Math.round(+t); };
+const num = v => { const x = +String(v ?? "").trim(); return isNaN(x) ? 0 : x; };
+
+// Menetrend: a meccssorok („1.”) és a programpontok („—”) idő szerint; napváltás, ha az idő visszaugrik.
+function toItems(rows) {
+  let day = 0, prev = -1;
+  return rows.filter(r => /^(\d+\.|—|-)$/.test((r[0] || "").trim()) && /\d{1,2}:\d{2}/.test(r[1] || "")).map(r => {
+    const [h, m] = r[1].trim().split(":").map(Number), minutes = h * 60 + m;
+    if (prev >= 0 && minutes < prev) day++;
+    prev = minutes;
+    const no = parseInt(r[0], 10);
+    if (isNaN(no)) return { prog: true, day, minutes, time: r[1].trim(), title: (r[2] || "").trim() };
+    return { no, day, minutes, time: r[1].trim(), home: (r[2] || "").trim(), away: (r[5] || "").trim(),
+             hg: goal(r[3]), ag: goal(r[4]), stake: (r[6] || "").trim() };
+  });
+}
+const played = m => m.hg !== null && m.ag !== null;
+
+function toTable(rows) {
+  let note = "";
+  const out = [];
+  for (const r of rows) {
+    const k = (r[0] || "").trim();
+    if (/pontoz/i.test(k)) note = k.replace(/^[^\p{L}]+/u, "");
+    if (k && /^\d+$/.test((r[1] || "").trim()) && !/csapat/i.test(k))
+      out.push({ name: k, m: num(r[1]), w: num(r[2]), d: num(r[3]), l: num(r[4]), goals: (r[5] || "").replace(/\s/g, ""), gd: num(r[6]), p: num(r[7]), gf: num(r[8]) });
+  }
+  // Ugyanazok a kulcsok, mint a szervezők táblázatában: pont, gólkülönbség, rúgott gól (csökkenő).
+  const rows2 = out.map((s, i) => ({ ...s, i })).sort((a, b) => b.p - a.p || b.gd - a.gd || b.gf - a.gf || a.i - b.i);
+  return { rows: rows2, note };
+}
+const toFinal = rows => rows.filter(r => /helyezett/i.test(r[0] || "")).map(r => ({ label: r[0].trim(), team: (r[3] || "").trim(), goals: (r[5] || "").replace(/\s/g, ""), gd: num(r[6]) }));
+const toScorers = rows => rows.filter(r => (r[1] || "").trim() && !/játékos/i.test(r[1])).map(r => ({ rank: (r[0] || "").trim(), name: r[1].trim(), team: (r[2] || "").trim(), goals: num(r[3]) }));
+
+let ITEMS = toItems(FALLBACK);
+let TABLE = { rows: [], note: "" }, FINAL = [], SCORERS = [];
+let lastOk = null, failed = false;
+let tab = store.get("mefob-tab") || "meccsek";
+let mine = store.get("mefob-team") || "";
+const isMine = n => mine && n === mine;
+const matches = () => ITEMS.filter(x => !x.prog);
+
+function todayKey() { const d = new Date(); return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`; }
+const dayIdx = () => DAYS.indexOf(todayKey());
+const afterAll = () => todayKey() > DAYS[DAYS.length - 1];
+const beforeAll = () => todayKey() < DAYS[0];
+function nowMinutes() { const d = new Date(); return d.getHours() * 60 + d.getMinutes(); }
+// „Most” a menetrend idővonalán: (nap, perc); a torna előtt -1, utána végtelen.
+function nowPos() { if (beforeAll()) return -1; if (afterAll()) return Infinity; const i = dayIdx(); return i < 0 ? -1 : i * 1440 + nowMinutes(); }
+const pos = x => x.day * 1440 + x.minutes;
+function ceremonyPos() {
+  const c = ITEMS.find(x => x.prog && /eredményhirdetés/i.test(x.title));
+  if (c) return pos(c);
+  const ms = matches(); return ms.length ? pos(ms[ms.length - 1]) + 60 : Infinity;
+}
+const allPlayed = () => matches().length > 0 && matches().every(played);
+
+// Egy meccs „fut”, amíg a következő el nem kezdődik, legfeljebb LIVE_MAX_MIN percig. Futó meccs eredménye még változhat.
+function runningMatch() {
+  const n = nowPos(); if (n < 0 || n === Infinity) return null;
+  const ms = matches().slice().sort((a, b) => pos(a) - pos(b));
+  for (let i = ms.length - 1; i >= 0; i--) {
+    const m = ms[i], next = ms[i + 1];
+    if (n < pos(m)) continue;
+    if (next && (played(next) || n >= pos(next))) return null;
+    if (n >= pos(m) + LIVE_MAX_MIN) return null;
+    return m;
+  }
+  return null;
+}
+const isLive = m => { const r = runningMatch(); return !!r && r.no === m.no; };
+const ceremonyReached = () => nowPos() >= ceremonyPos();
+const archived = () => afterAll() || nowPos() >= ceremonyPos() + ARCHIVE_AFTER_MIN;
+const finalKnown = () => allPlayed() && !runningMatch() && FINAL.length > 0;
+
+function dayWord(d) {
+  const i = dayIdx();
+  if (i === d) return "ma";
+  if (i >= 0 && d === i + 1) return "holnap";
+  return DAY_LABEL[d].split(", ")[1];
+}
+
+function podiumTop() {
+  if (!finalKnown()) return "";
+  const top = FINAL.slice(0, 3);
+  if (top.length < 3) return "";
+  const col = i => `<div class="col p${i + 1}"><div class="who">${esc(top[i].team)}</div><div class="blk num">${i + 1}</div></div>`;
+  return `<div class="spot final"><div class="lbl"><b>Végeredmény</b><span>Floorball MEFOB 2026</span></div>
+    <div class="stand" role="group" aria-label="Dobogó: 1. ${esc(top[0].team)}, 2. ${esc(top[1].team)}, 3. ${esc(top[2].team)}">${col(1)}${col(0)}${col(2)}</div>
+    <button type="button" class="more" data-goto="tabella">Teljes végeredmény</button></div>`;
+}
+
+function renderSpot() {
+  const el = $("spot");
+  if (ceremonyReached() || afterAll()) { const p = podiumTop(); if (p) { el.innerHTML = p; return; } }
+  const live = runningMatch(), n = nowPos();
+  const next = live || matches().find(m => !played(m) && pos(m) > n);
+  if (!next) {
+    const c = ITEMS.find(x => x.prog && /eredményhirdetés/i.test(x.title));
+    el.innerHTML = `<div class="spot"><div class="lbl"><b>Vége a körmérkőzésnek</b></div><div class="stake">${c ? `Eredményhirdetés és díjátadó ${dayWord(c.day)} ${esc(c.time)}-kor. ` : ""}A végeredmény a Tabella fülön.</div></div>`;
+    return;
+  }
+  const sc = live && played(live) ? `<div class="sc livesc">${live.hg}:${live.ag}</div>` : `<div class="sc">–</div>`;
+  el.innerHTML = `<div class="spot">
+    <div class="lbl"><b>${live ? "● Most a pályán" : "Következő meccs"}</b><span>${next.no}. meccs · ${dayWord(next.day)} ${esc(next.time)}</span></div>
+    <div class="teams"><div class="t">${esc(next.home)}</div>${sc}<div class="t">${esc(next.away)}</div></div>
+    <div class="stake">${live ? "Az eredmény még változhat · " : ""}${esc(next.stake)}</div></div>`;
+}
+
+function itemRow(x) {
+  if (x.prog) return `<div class="m prog"><div class="meta"><span><b class="num">${esc(x.time)}</b></span><span>Hivatalos program</span></div><div class="pn">${esc(x.title)}</div></div>`;
+  const p = played(x), live = isLive(x);
+  const cls = ["m", (isMine(x.home) || isMine(x.away)) ? "mine" : "", live ? "now" : ""].join(" ");
+  const team = (n, side, win) => `<span class="n ${side}${win ? " w" : ""}">${esc(n)}</span>`;
+  return `<div class="${cls}">
+    <div class="meta"><span><b class="num">${esc(x.time)}</b> · ${x.no}. meccs${live ? ` <em class="livetag">● élő, még változhat</em>` : ""}</span><span>${esc(x.stake)}</span></div>
+    <div class="vs">${team(x.home, "h", p && !live && x.hg > x.ag)}
+      <span class="score num${p ? "" : " open"}${live ? " live" : ""}">${p ? `${x.hg}:${x.ag}` : "–"}</span>
+      ${team(x.away, "a", p && !live && x.ag > x.hg)}</div></div>`;
+}
+
+function renderMatches() {
+  const days = [...new Set(ITEMS.map(x => x.day))];
+  $("p-meccsek").innerHTML = days.map(d => `<h2>${d + 1}. nap</h2><p class="sub">${esc(DAY_LABEL[d] || "")}</p>
+    <div class="list">${ITEMS.filter(x => x.day === d).map(itemRow).join("")}</div>`).join("") +
+    `<p class="note">5 csapatos körmérkőzés, mindenki mindenkivel egyszer. Játékidő 2 × 20 perc futóórával, 5 perc szünettel.</p>`;
+}
+
+function renderTable() {
+  const T = TABLE, live = runningMatch();
+  const tbl = T.rows.length ? `<div class="tbl"><table class="num">
+    <thead><tr><th></th><th>Csapat</th><th>M</th><th>Gy</th><th>D</th><th>V</th><th>Gól</th><th>GK</th><th>P</th></tr></thead><tbody>
+    ${T.rows.map((s, i) => `<tr class="${isMine(s.name) ? "mine" : ""}"><td class="pos">${i + 1}</td><td class="tn">${esc(s.name)}</td>
+      <td>${s.m}</td><td>${s.w}</td><td>${s.d}</td><td>${s.l}</td><td>${esc(s.goals)}</td><td>${s.gd > 0 ? "+" : ""}${s.gd}</td><td class="p">${s.p}</td></tr>`).join("")}
+    </tbody></table></div>` : `<p class="sub">Betöltés…</p>`;
+  const fin = finalKnown()
+    ? `<div class="podium">${FINAL.map((f, i) => `<div class="pl${i < 3 ? " medal" : ""}${isMine(f.team) ? " mine" : ""}"><div class="rk num">${i + 1}.</div>
+        <div><div class="tn">${esc(f.team)}</div><div class="br">${esc(f.label.replace(/^\d+\.\s*/, ""))}</div></div></div>`).join("")}</div>`
+    : `<div class="podium"><div class="pl"><div></div><div class="tn ph">Az utolsó meccs után dől el.</div></div></div>`;
+  $("p-tabella").innerHTML = `<h2>Tabella${live ? ` <em class="livetag">● élő meccs, még változhat</em>` : ""}</h2>${tbl}
+    ${T.note ? `<p class="note">${esc(T.note)}</p>` : ""}
+    <h2>Végső helyezés</h2><p class="sub">A szervezők táblázatából, a körmérkőzés végén.</p>${fin}`;
+}
+
+function renderScorers() {
+  const L = SCORERS;
+  $("p-gollovok").innerHTML = `<h2>Góllövőlista</h2><p class="sub">A szervezők jegyzőkönyve alapján.</p>` + (L.length
+    ? `<div class="podium sc-list">${L.map(s => `<div class="pl${isMine(s.team) ? " mine" : ""}"><div class="rk num">${esc(s.rank)}.</div>
+        <div><div class="tn">${esc(s.name)}</div><div class="br">${esc(s.team)}</div></div><div class="g num">${s.goals}</div></div>`).join("")}</div>`
+    : `<div class="podium"><div class="pl"><div></div><div class="tn ph">Még nincs gól a listán.</div></div></div>`);
+}
+
+function renderTeamPicker() {
+  const names = new Set();
+  matches().forEach(m => { names.add(m.home); names.add(m.away); });
+  const opts = [...names].filter(Boolean).sort((a, b) => a.localeCompare(b, "hu"));
+  $("team").innerHTML = `<option value="">nincs kiválasztva</option>` + opts.map(n => `<option${n === mine ? " selected" : ""}>${esc(n)}</option>`).join("");
+}
+
+function renderStatus() {
+  const dot = $("dot"), st = $("stamp");
+  if (failed) { dot.className = "dot err"; st.textContent = lastOk ? `Nincs kapcsolat · utolsó adat ${lastOk}` : "Nincs kapcsolat · az alap menetrend látszik"; }
+  else if (archived()) { dot.className = "dot"; st.textContent = "Végeredmény · lezárva"; }
+  else if (lastOk) { dot.className = "dot live"; st.textContent = `Élő · frissítve ${lastOk}`; }
+  $("reload").hidden = archived();
+}
+
+function render() {
+  if (ceremonyReached() && finalKnown() && store.get("mefob-final") !== "1") { tab = "tabella"; store.set("mefob-final", "1"); }
+  renderSpot(); renderMatches(); renderTable(); renderScorers(); renderStatus();
+  for (const b of document.querySelectorAll(".tabs button")) b.setAttribute("aria-selected", b.dataset.tab === tab);
+  for (const id of ["meccsek", "tabella", "gollovok"]) $("p-" + id).hidden = id !== tab;
+}
+
+async function load() {
+  try {
+    const get = async range => {
+      const res = await fetch(csvUrl(range) + "&t=" + Date.now(), { cache: "no-store" });
+      if (!res.ok) throw new Error(res.status);
+      return parseCSV(await res.text());
+    };
+    const [m, t, f, s] = await Promise.all([get(RANGES.matches), get(RANGES.table), get(RANGES.final), get(RANGES.scorers)]);
+    const it = toItems(m);
+    if (it.filter(x => !x.prog).length < 10) throw new Error("hiányos adat");
+    ITEMS = it; TABLE = toTable(t); FINAL = toFinal(f); SCORERS = toScorers(s); failed = false;
+    lastOk = new Date().toLocaleTimeString("hu-HU", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+    store.set("mefob-cache", JSON.stringify({ ITEMS, TABLE, FINAL, SCORERS, lastOk }));
+  } catch (e) { failed = true; }
+  render();
+}
+
+try { const c = JSON.parse(store.get("mefob-cache") || "null"); if (c && c.ITEMS) ({ ITEMS, TABLE, FINAL, SCORERS, lastOk } = c); } catch {}
+renderTeamPicker(); render(); load();
+const refreshTimer = setInterval(() => { if (archived()) { clearInterval(refreshTimer); render(); } else load(); }, REFRESH_MS);
+document.addEventListener("visibilitychange", () => { if (!document.hidden && !archived()) load(); });
+$("reload").addEventListener("click", load);
+document.querySelector(".tabs").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  tab = b.dataset.tab; store.set("mefob-tab", tab); render(); window.scrollTo({ top: $("spot").offsetTop, behavior: "smooth" });
+});
+$("spot").addEventListener("click", e => {
+  const b = e.target.closest("[data-goto]"); if (!b) return;
+  tab = b.dataset.goto; store.set("mefob-tab", tab); render(); window.scrollTo({ top: document.querySelector("nav").offsetTop, behavior: "smooth" });
+});
+const clockTimer = setInterval(() => { render(); if (archived()) clearInterval(clockTimer); }, 60000);
+$("team").addEventListener("change", e => { mine = e.target.value; store.set("mefob-team", mine); render(); });
+</script>
 </body>
 </html>
